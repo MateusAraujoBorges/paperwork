@@ -1,0 +1,142 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amscd}
+\usepackage{amsfonts}
+\usepackage{graphicx}%
+\usepackage{fancyhdr}
+\usepackage{microtype}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+
+
+%\addtolength{\topmargin}{-\headheight}
+%\addtolength{\topmargin}{-\headsep}
+%\setlengt{\hoddsidemargin}{0in}
+
+\pagestyle{fancy}\lhead{Research Summary} \rhead{November 2015}
+\chead{{\large{\bf Mateus Borges}}} \lfoot{} \rfoot{\bf \thepage} \cfoot{}
+
+\newcounter{list}
+
+\begin{document}
+
+\newcommand{\PSE}{\texttt{PSE}}
+\newcommand{\qCORAL}{\texttt{qCORAL}}
+\raisebox{1cm}
+
+\textit{plan was to focus on symbolic execution since all my papers are related to it}
+
+My research focuses on improving the scalability and applicability of
+Probabilistic Symbolic Execution (\PSE{}). The aim of \PSE{}
+\cite{borges2015iterative} is to quantify the probability of reaching
+program events of interest assuming that program inputs follow given
+probabilistic distributions. The input distributions allow data from
+real world observations to be incorporated in the analysis of programs
+that interact with their environment, as well as to encode uncertainty
+in design assumptions about the usage profile of a program.
+
+The technique has many potential applications, e.g. it can be used in
+debugging, for ranking program errors, in analyzing the control
+software of autonomous vehicles that interact with uncertain
+environments, for computing software reliability, and for quantitative
+information flow analysis, to name a few. In the past, this kind of
+analysis was mostly performed at the model level, limiting its
+applicability to early design stages or requiring explicit abstraction
+from the code. \PSE{} doesn't share the same limitations and it is able
+to analyze source code directly.
+
+\subsection*{Current Research}
+
+\textit{copy-pasting intro from FSE; doubt I can sell it better; maybe
+  move this to the top now that I'm not including constraint solving;
+  I should highlight the ``applicability of anticipated research to
+  Facebook''.}
+
+
+To compute the probability of an event, \PSE{} needs to quantify the
+fraction of the input domain that results in executions leading to the
+event. This operation is one of the main obstacles to the
+applicability of probabilistic software analysis in practice: Precise
+quantification is usually limited to linear constraints, while only
+approximate solutions can be provided in general through statistical
+approaches. However, statistical approaches may fail to converge to an
+acceptable accuracy within a reasonable time.
+
+To meet this challenge, I developed
+\qCORAL\cite{borges2014compositional}, a compositional statistical
+approach for the efficient quantification of solution spaces for
+arbitrarily complex constraints over bounded floating-point
+domains. My PLDI'14 paper presents the compositional strategy used in
+\qCORAL: the constraints are split into independent subproblems, which
+are analyzed separately, and the results are composed back
+together. Partial results from independent subproblems can be computed
+faster, and also can be cached and reused. The subproblems are sent to
+an off-the-shelf interval constraint solver to break the solution
+spaces into even smaller regions, whose union necessarily bounds its
+solution space.  \qCORAL then uses stratified sampling, a well known
+technique for speeding up the convergence of Monte Carlo simulations,
+to analyze the data from the independent regions, and to compose the
+results.
+
+My FSE'15 paper \cite{borges2015iterative} further improves \qCORAL
+with an iterative distribution-aware sampling approach. This technique
+is based in two observations: First, certain paths have higher impact
+in driving the program execution toward the occurrence of a target
+event. Second, certain paths have higher impact on the convergence
+rate of statistical estimation, since they provide more information
+about the possibility for the target event to occur.
+
+Based on this insight, we analyze the paths leading to the occurrence
+of the target event to rank them according to their impact on the
+convergence of the statistical analysis.  Exploiting such ranking, our
+method iteratively re-focuses the sampling to gather more information
+about the satisfaction of the most important subproblems first,
+achieving higher estimation accuracy in a shorter time. I explored
+three distinct ranking strategies: two of them are based on gradient
+descent optimization while the third one uses a simple but efficient
+heuristic which gives more importance to the problems whose
+probability estimates are farther from convergence.
+
+
+\subsection*{Future directions}
+
+\noindent \textbf{Domain Coverage and Test Generation} 
+
+Symbolic Execution can be guided by heuristics to produce sets of test
+inputs that achieve high coverage criteria (like branch coverage or
+MC-DC). In a similar way, Probabilistic Symbolic Execution can be used
+to produce test inputs that achive high domain coverage. I plan to
+investigate this coverage criteria and see if it {has some interesting
+  property?}. To support this effort, I will:
+\begin{itemize}
+\item Investigate what benefits can be obtained by using concolic
+  execution in place of traditional symbolic execution. Concolic
+  Execution \textit{... one-liner about concolic execution}
+\item {something about the new counting library? maybe not...}
+  
+\end{itemize}
+
+
+%% General problem area
+%%  - probabilistic software analysis
+%%  - touches multiple areas (smt solving, model counting...)
+%%  - many open problems
+%% Narrowing focus
+%%  - Make ProbSymEx scale to larger programs
+%%  - Find applications?
+%% Secret weapon?
+%%  - Statistical techniques + smart optimizations?
+%% Current focus (maybe merge with previous paragraph)
+%%  - Adapt concolic execution for probsymex?
+%%  - Investigate 
+%% End?
+%%  - SymEx took 3 decades to become popular
+%%  - Reap the benefits of ProbSymEx in 10 years
+
+
+
+\bibliographystyle{plain} \bibliography{summary}
+
+
+\end{document}

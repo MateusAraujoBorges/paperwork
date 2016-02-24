@@ -1,0 +1,461 @@
+\documentclass[10pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amscd}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{microtype}
+\usepackage{soul}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{linegoal}
+\usepackage{enumitem}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage[sort&compress]{natbib}    
+\usepackage{verbatim}
+\usepackage{titlesec}
+\usepackage{bibentry}
+
+%\addtolength{\topmargin}{-\headheight}
+%\addtolength{\topmargin}{-\headsep}
+%\setlengt{\hoddsidemargin}{0in}
+
+\pagestyle{fancy}\lhead{Research Summary} \rhead{November 2015}
+\chead{{\large{\bf Mateus Borges}}} \lfoot{} \rfoot{\bf \thepage} \cfoot{}
+
+\newcounter{list}
+
+\renewcommand{\bibfont}{\small}
+\setlength{\bibsep}{0ex}
+
+
+%\titlespacing\section{0pt}{10pt plus 1pt minus 2pt}{0pt plus 2pt minus 2pt}
+
+\begin{document}
+
+\newcommand{\PSE}{\texttt{PSE}}
+\newcommand{\qCORAL}{\texttt{qCORAL}}
+\newcommand{\PC}{\textit{PC}}
+%\newcommand{\question}[1]{\colorbox{red}{\parbox[t]{\linegoal}{\textbf{#1}}}}
+%\newcommand{\questionDone}[1]{\colorbox{red}{\parbox[t]{\linegoal}{\st{\textbf{#1}}}}}
+%\newcommand{\outline}[1]{\colorbox{BurntOrange}{\parbox[t]{\linegoal}{\textbf{#1}}}}
+%\newcommand{\outlineDone}[1]{\colorbox{BurntOrange}{\parbox[t]{\linegoal}{\st{\textbf{#1}}}}}
+\raisebox{1cm}
+
+\vspace{-20mm}
+\section{Introduction}
+
+The pervasiveness of software, the heterogeneity of its users, and the
+growing complexity of interactions with third-party components are
+introducing a new degree of uncertainty about the execution conditions
+of a program, raising the quest for verification techniques able to
+deal with and to quantify such uncertainty, both in the problem and in
+the verification results \cite{borges2015iterative}. Traditional
+qualitative analysis techniques, which can only decide if a property
+is satisfied or not, cannot encode this uncertainty.  Thus,
+verification of quantitative properties is essential to assure the
+safety and reliability of much of the software currently in use.
+
+In the past, verification of quantitative properties has been mostly
+performed at model level. Probabilistic model checkers, such as PRISM
+\cite{kwiatkowska2011prism}, have been successfully used to analyze
+complex systems including network protocols, disk firmware and medical
+devices.  However, these techniques require explicit abstraction from
+the code, which limits their applicability to early software design
+stages or require constant maintenance during development.
+
+Probabilistic Symbolic Execution (\PSE{})
+\cite{geldenhuys2012probabilistic,filieri2013reliability} is a recent
+technique that aims to bring verification of quantitative properties
+to the code level. The objective of \PSE{} \cite{borges2015iterative}
+is to quantify the probability of reaching program events of interest
+assuming that program inputs follow given probabilistic
+distributions. The input distributions allow data from real world
+observations to be incorporated in the analysis of programs that
+interact with their environment, as well as to encode uncertainty in
+design assumptions about the usage profile of a program. The main
+advantage of \PSE{} is the lack of need of constructing and
+maintaining higher level models, which are often hard to keep
+consistent with the code, especially for fast-changing code bases
+(e.g., those produced by agile development processes); furthermore, the
+probabilistic information gathered with \PSE{} can be used to guide other
+static and dynamic analysis techniques, as well as testing. \PSE{} can
+be used to investigate quantitative properties of a program behavior,
+such as: How reliable is the program under an input distribution, how
+frequently is this block executed, and how much of the input space is
+covered by a test.
+
+
+%% \section{Background}
+
+%% %% Traditional applications of symbolic execution include test
+%% %% case generation and error detection, with many tools available
+%% %% \cite{cadar2011symbolic}. Symbolic execution of looping programs may
+%% %% result in an infinite symbolic execution tree. For this reason,
+%% %% a (user-specified) bound on the search depth is usually imposed.
+
+
+%% \subsection{Probabilistic Symbolic Execution}
+%% %% \begin{figure}[h]
+%% %%   \centering
+%% %% \includegraphics[width=.5\linewidth]{toolflow}
+%% %% \caption{Flow of a generic \PSE{} tool}
+%% %% \vspace{-5mm}
+%% %% \label{figToolflow}
+%% %% \end{figure}
+
+%% Probabilistic symbolic execution (\PSE{}) quantifies the probability
+%% of the software satisfying a given (quantitative) property
+%% \cite{filieri2013reliability,geldenhuys2012probabilistic,sankaranarayanan2013static,borges2014compositional}.
+%% \PSE{} is relevant in contexts where the software is designed to
+%% exhibit uncertain or randomized behavior or when the execution
+%% environment, including interactions with users, is characterized by a
+%% probabilistic profile. In these situations, it is usually more
+%% relevant to quantify the probability of satisfying (violating) a given
+%% property instead of just assessing the boolean possibility of this
+%% occurring.
+
+%% %%%%%
+%% \begin{comment}
+%% \PSE{} builds upon Symbolic Execution \cite{clarke1976system}, a
+%% well-known program analysis technique that executes programs on
+%% unspecified inputs by using symbolic inputs instead of concrete
+%% values. For each executed program path, the analysis builds a path
+%% condition \PC{}, which is essentially the conjunction of boolean
+%% conditions characterizing the inputs making the program follow the
+%% corresponding execution path. This \PC{} is built according to the
+%% branching conditions in the code and it is checked for satisfiability
+%% using off-the-shelf solvers. If a \PC{} becomes unsatisfiable it
+%% means that the corresponding path is not feasible in the program (and
+%% the analysis backtracks). The execution paths followed during the
+%% symbolic execution of a program can be composed into a symbolic
+%% execution tree, where the nodes represent symbolic program states and
+%% the arcs represent transitions between states.
+%% \end{comment}
+%% %%%%
+
+%% \PSE{} takes as input a program and a usage profile for the program’s
+%% input variables. The usage profile includes the domain of input
+%% variables and a probability distribution over such domain. The output
+%% is an estimate of the probability of satisfying (or violating) a
+%% property of interest, e.g., executing a certain block of code or
+%% violating an assertion. Internally, \PSE{} uses Symbolic Execution
+%% \cite{clarke1976system} to produce a set of \emph{path conditions},
+%% which are the conjunction of boolean conditions characterizing the
+%% inputs making the program follow the corresponding execution path,
+%% that cover the event of interest. In this context, satisfaction of one
+%% individual path constraint implies the occurrence of the
+%% event. Finally, the solution space of the disjunction of path
+%% conditions is quantified (Section \ref{quantification}) and combined
+%% with the usage profile to produce the probability of the event to
+%% occur.
+
+
+%% \subsection{Solution Space Quantification}
+%% \label{quantification}
+%% The quantification of the solution space for a set of constraints is
+%% one of the main obstacles to the applicability of \PSE{} in practice.
+%% In previous studies \cite{filieri2013reliability,
+%%   geldenhuys2012probabilistic}, model counting techniques have been
+%% applied to count the number of points within a bounded integer domain
+%% that satisfy given linear constraints.  These counts are then coupled
+%% with a probabilistic input usage profile, describing how likely is
+%% each value in the domain to be an input, to assess the probability for
+%% the target event to occur in that usage profile. Borges et
+%% al. \cite{borges2014compositional,borges2015iterative} proposed a
+%% compositional quantification of the solution space based on Monte
+%% Carlo estimation. This approach can deal with arbitrarily complex
+%% numeric constraints over floating-point domains with non-uniform
+%% distributions, and it speeds up the convergence of the simulation with
+%% a focused, iterative sampling algorithm.
+
+%% \begin{comment}
+%% Sankaranarayanan et al. \cite{sankaranarayanan2013static} proposed an
+%% iterative algorithm to compute tight over-approximating bounds of the
+%% actual solution space suitable for efficient volume computation of
+%% linear constraints over floating-point domains.
+%% \end{comment}
+
+%% Research on quantification of more complex datatypes is ongoing. For
+%% strings, the techniques proposed in \cite{luu2014model,
+%%   aydin2015automata} can efficiently compute bounds for a subset of
+%% the most common string operations.  The support for (bounded) data
+%% structures is also in its infancy; in \cite{filieri2015model} a
+%% bounded lazy initialization technique is used to explore only the
+%% portion of the domain satisfying the constraint. \#SAT and \#SMT
+%% solvers can also be applied in boolean and more complex domains (e.g.,
+%% requiring reasoning about multiple theories) \cite{biere2009handbook}.
+
+\section{Research Directions}
+\label{research}
+
+\PSE{} looks promising as an approach to help developers to reason
+about quantitative properties in their programs. Moreover, the
+probabilistic information computed with it can be of use to other
+software engineering techniques. However, investigations of the
+applicability of \PSE{} are hampered due to the limitations of the
+existing implementations. \PSE{} builds upon symbolic execution, and
+thus needs to deal with many of its disadvantages, like the
+exponential explosion of the number of symbolic execution
+paths. Furthermore, it is not always possible to directly use
+improvements to symbolic execution with \PSE{} due to the need to
+quantify the solution space of the paths leading to the target
+event. Quantification is also very expensive in general, due to the
+inherent hardness of the problem.
+
+
+%% \begin{itemize}
+%% \item \textbf{Path explosion.} Every branch in the program can
+%%   potentially create two new paths. Thus, the total number of paths to
+%%   be explored is exponential on the number of branches, or even
+%%   infinite if the program contains unbounded loops.
+
+%% \item \textbf{Theory support.} Symbolic Execution relies on constraint
+%%   solvers to check the feasibility of the explored paths. \PSE further
+%%   depends upon model counters to quantify their solution space. Those
+%%   tools can handle constraints expressed in specific, well-defined
+%%   \textit{theories}, like linear integer arithmetic. Programs that
+%%   contain operations that cannot be expressed in the theories
+%%   supported by the chosen constraint solver/model counter cannot be
+%%   analyzed.
+
+%% \end{itemize}
+
+\vspace{-4mm}
+\subsection{Direction 1: Extending and Scaling \PSE{}}
+
+\begin{itemize}
+\item \textbf{Compositional Probabilistic Symbolic Execution.} The
+path explosion problem inherent to symbolic execution can be
+alleviated by computing \textit{summaries} of individual functions
+\cite{godefroid2007compositional}. A function summary is a logical
+formula that represents all possible pre-conditions over function
+inputs and post-conditions over function outputs. Summaries are
+generated by computing a pre- and post-condition for each feasible
+path of the target function. Once summaries are computed, calls to the
+summarized function encountered during the exploration can be replaced
+by the summary. Although computing a summary can be expensive, it is
+possible to obtain significant gains in performance by carefully
+choosing the functions to be summarized at runtime
+\cite{anand2008demand}.
+
+\item \textbf{Approximate Model Counting of Complex Datatypes.}
+Approximate Model Counters overcome the limitations in terms of
+running time and memory demand of exact counting methods, allowing to
+deal with much larger problems ($\approx 10\times$ more variables)
+\cite{biere2009handbook}.  However, such counters are based on
+simulation and can only provide approximate results. While the
+accuracy of the results can be arbitrarily improved, the price to be
+paid is the increased number of simulations, which increases the
+analysis time, possibly making it unreasonably long. I propose to
+investigate techniques for approximate model counting of more complex
+datatypes, like strings and heap structures. The presence of those
+datatypes is widespread among existing software, and supporting them
+will enable \PSE{} to be applied more broadly. For strings, a starting
+point would be researching how to encode constraints and perform
+sampling with probabilistic automata \cite{vidal2005probabilistic}.
+
+
+%% In previous work\cite{borges2014compositional, borges2015iterative}, I
+%% presented \qCORAL, a compositional statistical approach for the
+%% efficient quantification of solution spaces for arbitrarily complex
+%% constraints over bounded floating-point domains. \qCORAL uses a
+%% compositional strategy combined with an off-the-shelf interval
+%% constraint solver and a focused, iterative sampling algorithm to
+%% improve the speed of the simulation.
+
+
+%% \item \textbf{Probabilistic Concolic Testing} Concolic Testing
+%% \cite{godefroid2005dart} is a very popular approach for test input
+%% generation \cite{cadar2011symbolic} that performs both concrete and
+%% symbolic execution of the program at the same time. The main advantage
+%% of concolic testing is the possibility to simplify \PC s that contain
+%% operations (e.g. nonlinear arithmetic) which aren't supported by the
+%% constraint solver. This is done by replacing symbolic variables with
+%% concrete values obtained during the execution. Performing these
+%% simplifications, however, can possibly result in a \textit{incomplete
+%%   exploration} of the program due to the loss of symbolic
+%% information. On the other hand, the loss of completeness is a better
+%% alternative than stopping the exploration when an unsupported
+%% constraint is produced. In principle, concolic testing could be used
+%% in place of traditional symbolic execution to drive the path
+%% exploration stage of \PSE{}. The main benefits of this change are: 1)
+%% better support for programs with \PC s that are beyond the
+%% capabilities of the chosen constraint solver, and 2) allowing the use
+%% of probabilistic information to guide the path exploration during test
+%% generation.  In practice, it is necessary to account for the loss of
+%% completeness due to simplification: every time the concolic engine
+%% simplifies a constraint, there is a risk that paths leading to the
+%% desired target event will be missed.
+\end{itemize}
+
+\subsection{Direction 2: Applications of \PSE{}}
+
+\begin{itemize}
+\item \textbf{Guiding Automated Program Repair with \PSE{}.}
+Automated Program Repair \cite{le2015manybugs} (APR) aims to compute,
+without manual intervention, a ``patch'' that fixes a defect in a
+program. APR approaches can be roughly categorized in two main blocks:
+search-based and formal.  Search-based approaches generate multiple
+candidate solutions according to heuristics which are validated
+against a test suite. Formal approaches use formal specifications to
+construct a fix for the program which can be mathematically proved to
+be correct. I propose to investigate opportunities to use \PSE{} to
+improve automatic program repair. One such opportunity is to use
+probabilistic information in the ranking heuristics of search-based
+approaches. The idea is that candidate solutions with smaller
+probabilities of breaking tests will lead more frequently to a correct
+patch. Similarly, Formal APR approaches may benefit from a precise
+quantification of how many inputs lead to a violation of the formal
+specification and how likely those inputs are. Even if a correct patch
+is not found, previous research \cite{le2013current} suggests that
+patches that do not completely fix the problem may be of utility to
+the developer to understand and fix the problem manually.
+
+%% \noindent \textbf{Bug Prioritization} I propose to investigate the
+%% application of \PSE{} to ranking bugs. The core idea is that bugs
+%% related to failures that happen with a higher probability are more
+%% important. This simple heuristic can be used by developers to
+%% prioritize their maintenance efforts.
+
+\item \textbf{Generating Tests with High Domain Coverage.}  Structural
+  coverage metrics \cite{mockus2009test}, like branch or statemtent
+  coverage, are commonly used in the industry to estimate the quality
+  of a test suite. The motivation behind it is that the more parts of
+  the program are exercised by the suite, the better it is. Maximizing
+  coverage is a common target of search heuristics for test input
+  generation \cite{godefroid2008automated}. However, structural
+  coverage cannot quantify what proportion of the input domain is
+  covered, nor which fraction of the user input is represented by the
+  test suite. I propose to use \PSE{} to compute these new coverage
+  criteria and to evaluate their effectiveness against
+  state-of-the-art coverage metrics. If the results are positive, I
+  also plan to investigate the use of probabilistic information to
+  guide the path exploration during test generation to maximize
+  the covered fraction of the input domain.
+  
+\end{itemize}
+
+\vspace{-4mm}
+\section{Collaborations}
+
+%% It is certainly infeasible to solve all current challenges of \PSE{}
+%% in two years. However, it is not feasible at this point to choose a
+%% few and commit to a hard schedule. External factors, like interest in
+%% collaboration from other researchers and availability of case studies,
+%% are of great importance to the success of the project, and also
+%% difficult to antecipate. Thus, I propose an incremental, iterative
+%% strategy to pursue the directions outlined in Section~\ref{research}.
+%% This strategy is composed by two dependent tracks:
+
+%% \begin{itemize}
+%% \item \textbf{Infrastructure work.} I will produce a suite of tools to
+%%   perform \PSE{}, with an focus on ease of use and extensibility to
+%%   facilitate the prototyping of research concepts. Planned tools
+%%   include \PSE{} engines for Java and C, plus an unified interface for
+%%   multiple model counters. The suite must also be able to record a
+%%   diverse array of internal information to guide comparative
+%%   evaluations, such as explored \PC s, time spent on constraint
+%%   solving/solution space quantification, and so on. The aim is to,
+%%   once the suite of tools is sufficiently stable, release it to the
+%%   community (as opensouce software) to build interest, receive
+%%   feedback and enable collaborations. After this initial sprint,
+%%   future improvements to the suite will be guided by the needs of the
+%%   challenges chosen to be addressed.
+
+%% \item \textbf{Estabilish collaborations.}
+
+  In order to obtain access to case studies and validate results from
+  experiments, I plan to estabilish collaborations with key
+  researchers from both the academia and the industry. From a more
+  pratical point of view, those collaborations will help to identify
+  what challenges need to be addressed before exploring a specific
+  application of \PSE{}. Here is an initial list:
+
+%  \begin{itemize}
+  
+  \textit{Dr. Corina Pasareanu, CMU SV/NASA Ames Research
+    Center}. Dr. Pasareanu is actively working in enabling \PSE{}
+  through the open-souce symbolic execution engine Symbolic
+  PathFinder. I collaborated multiple times with Dr. Pasareanu in the
+  past, which resulted in four academic publications. Her access to
+  NASA systems that could be used as case studies was essential to the
+  success of those projects.
+
+  \textit{Prof. Willem Visser, Stellenbosch University}.
+  Prof. Visser is one of the authors of the work that introduced \PSE{}
+  \cite{geldenhuys2012probabilistic}. He is interested in
+  investigating ways to improve the scalability of \PSE{} and extend
+  the range of programs that can be analyzed. I also have collaborated
+  with him in the past.
+
+  \textit{Dr. Cristian Cadar, Imperial College
+    London}. Dr. Cadar is the author of KLEE \cite{cadar2008klee}, a
+  well known opensource engine for symbolic execution of C programs.
+  One of his main topics of his work is the study of symbolic
+  execution-based techniques to improve software reliability and
+  security.
+    
+  \textit{Prof. Alessandro Orso, Georgia Institute of
+    Technology}. Prof. Orso work encompasses multiple areas of software
+  testing, like test generation, automatic fault localization and
+  program repair.
+  
+%\end{itemize}
+
+\section{(Relevant) Previous Work}
+
+\textbf{\qCORAL{}: Compositional Solution Space Quantification.} To
+compute the probability of an event, \PSE{} needs to quantify the
+fraction of the input domain that results in executions leading to the
+target event. This operation is one of the main obstacles to the
+applicability of \PSE{} in practice: Precise quantification is usually
+limited to linear constraints, while only approximate solutions can be
+provided in general through statistical approaches. However,
+statistical approaches may fail to converge to an acceptable accuracy
+within a reasonable time. To meet this challenge, I developed
+\qCORAL\cite{borges2014compositional,borges2015iterative}, a
+compositional statistical approach for the efficient quantification of
+solution spaces for arbitrarily complex constraints over bounded
+floating-point domains. This approach can deal with arbitrarily
+complex numeric constraints over floating-point domains with
+non-uniform distributions, and it speeds up the convergence of the
+Monte Carlo simulation with a focused, iterative sampling algorithm.
+
+
+
+%% \subsection{Schedule}
+
+%% I propose to split the schedule in three distinct phases, listed below.
+
+%% \begin{enumerate}[label=(\texttt{Phase \arabic*})]
+
+%% \item \textbf{Foundations}: \textit{Estimated effort: 6 months}
+%%   Develop \PSE engines for Java and C. Write unified interface for
+%%   multiple model counters. Release tools to the community to build
+%%   interest and obtain feedback.
+
+%% \item \textbf{Research Thrusts}: \textit{Estimated effort: 18 months}
+%%   \textit{This phase is composed by three iterations, each one with a
+%%     duration of one semester.} Estabilish collaborations with external
+%%   researchers.  Decide the research challenge to be tackled in the
+%%   current iteration. Estabilish a research plan for the chosen
+%%   challenge.  If needed, extend the \PSE{} tools developed in Phase 1
+%%   for the realization of experiments. Submit results to relevant
+%%   workshops, conferences, and journals.
+  
+%% \item \textbf{Convergence}: \textit{Estimated effort: 4 months} Enter
+%%   ``Writing Thesis'' status. Write thesis. Perform maintenance work on
+%%   tools developed during the past phases.
+
+%% \end{enumerate}
+
+
+
+
+
+\bibliographystyle{plain} \bibliography{summary}
+
+\end{document}

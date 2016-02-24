@@ -11,7 +11,7 @@
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{linegoal}
 \usepackage{enumitem}
-\usepackage[a4paper, left=13mm,right=13mm,margin=12mm]{geometry}
+\usepackage[a4paper, margin=14mm]{geometry}
 \usepackage{graphicx}
 \usepackage[sort&compress]{natbib}    
 \usepackage{verbatim}
@@ -31,7 +31,7 @@
 \setlength{\bibsep}{0ex}
 
 
-%\titlespacing\section{0pt}{10pt plus 1pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\section{0pt}{5pt plus 1pt minus 2pt}{0pt plus 2pt minus 2pt}
 
 \begin{document}
 
@@ -190,7 +190,7 @@ block executed, and how much of the input space is covered by a test.
 \section{Research Directions}
 \label{research}
 
-\PSE{} looks promising as an approach to help developers to reason
+\PSE{} looks promising as an approach to help developers reasoning
 about quantitative properties in their programs. Moreover, the
 probabilistic information computed with it can be of use to other
 software engineering techniques. However, investigations of the
@@ -199,7 +199,7 @@ existing implementations. \PSE{} builds upon symbolic execution, and
 thus needs to deal with many of its disadvantages, like the
 exponential explosion of the number of symbolic execution
 paths. Furthermore, it is not always possible to directly use
-improvements to symbolic execution with \PSE{} due to the need to
+common optimizations to symbolic execution with \PSE{} due to the need to
 quantify the solution space of the paths leading to the target
 event. Quantification is also very expensive in general, due to the
 inherent hardness of the problem.
@@ -296,14 +296,14 @@ sampling with probabilistic automata \cite{vidal2005probabilistic}.
 \item \textbf{Guiding Automated Program Repair with \PSE{}.}
 Automated Program Repair \cite{le2015manybugs} (APR) aims to compute,
 without manual intervention, a ``patch'' that fixes a defect in a
-program. APR approaches can be roughly categorized in two main blocks:
+program. APR approaches can be roughly categorized in two main classes:
 search-based and formal.  Search-based approaches generate multiple
 candidate solutions according to heuristics which are validated
 against a test suite. Formal approaches use formal specifications to
 construct a fix for the program which can be mathematically proved to
 be correct. I propose to investigate opportunities to use \PSE{} to
 improve automatic program repair. One such opportunity is to use
-probabilistic information in the ranking heuristics of search-based
+probabilistic information in ranking heuristics results of search-based
 approaches. The idea is that candidate solutions with smaller
 probabilities of breaking tests will lead more frequently to a correct
 patch. Similarly, Formal APR approaches may benefit from a precise

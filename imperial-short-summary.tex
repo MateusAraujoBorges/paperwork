@@ -11,7 +11,7 @@
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{linegoal}
 \usepackage{enumitem}
-\usepackage[a4paper, margin=1in]{geometry}
+\usepackage[a4paper, left=13mm,right=13mm,margin=12mm]{geometry}
 \usepackage{graphicx}
 \usepackage[sort&compress]{natbib}    
 \usepackage{verbatim}
@@ -22,8 +22,8 @@
 %\addtolength{\topmargin}{-\headsep}
 %\setlengt{\hoddsidemargin}{0in}
 
-\pagestyle{fancy}\lhead{Research Summary} \rhead{November 2015}
-\chead{{\large{\bf Mateus Borges}}} \lfoot{} \rfoot{\bf \thepage} \cfoot{}
+%\pagestyle{fancy}\lhead{Research Summary} \rhead{November 2015}
+%\chead{{\large{\bf Mateus Borges}}} \lfoot{} \rfoot{\bf \thepage} \cfoot{}
 
 \newcounter{list}
 
@@ -69,23 +69,22 @@ stages or require constant maintenance during development.
 Probabilistic Symbolic Execution (\PSE{})
 \cite{geldenhuys2012probabilistic,filieri2013reliability} is a recent
 technique that aims to bring verification of quantitative properties
-to the code level. The objective of \PSE{} \cite{borges2015iterative}
-is to quantify the probability of reaching program events of interest
-assuming that program inputs follow given probabilistic
-distributions. The input distributions allow data from real world
-observations to be incorporated in the analysis of programs that
-interact with their environment, as well as to encode uncertainty in
-design assumptions about the usage profile of a program. The main
-advantage of \PSE{} is the lack of need of constructing and
-maintaining higher level models, which are often hard to keep
-consistent with the code, especially for fast-changing code bases
-(e.g., those produced by agile development processes); furthermore, the
-probabilistic information gathered with \PSE{} can be used to guide other
-static and dynamic analysis techniques, as well as testing. \PSE{} can
-be used to investigate quantitative properties of a program behavior,
-such as: How reliable is the program under an input distribution, how
-frequently is this block executed, and how much of the input space is
-covered by a test.
+to the code level. The objective of \PSE{} is to quantify the
+probability of reaching program events of interest assuming that
+program inputs follow given probabilistic distributions. The input
+distributions allow data from real world observations to be
+incorporated in the analysis of programs that interact with their
+environment, as well as to encode uncertainty in design assumptions
+about the usage profile of a program. The main advantage of \PSE{} is
+the lack of need of constructing and maintaining higher level models,
+which are often hard to keep consistent with the code, especially for
+fast-changing code bases (e.g., those produced by agile development
+processes); furthermore, the probabilistic information gathered with
+\PSE{} can be used to guide other static and dynamic analysis
+techniques, as well as testing. \PSE{} can be used to investigate
+quantitative properties of a program behavior, such as: How reliable
+is the program under an input distribution, how frequently is this
+block executed, and how much of the input space is covered by a test.
 
 
 %% \section{Background}

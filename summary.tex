@@ -67,7 +67,7 @@ together. Partial results from independent subproblems can be computed
 faster, and also can be cached and reused. The subproblems are sent to
 an off-the-shelf interval constraint solver to break the solution
 spaces into even smaller regions, whose union necessarily bounds its
-solution space.  \qCORAL then uses stratified sampling, a well known
+solution space.  \qCORAL{} then uses stratified sampling, a well known
 technique for speeding up the convergence of Monte Carlo simulations,
 to analyze the data from the independent regions, and to compose the
 results.
@@ -81,7 +81,7 @@ rate of statistical estimation, since they provide more information
 about the possibility for the target event to occur. Based on this
 insight, we analyze the paths leading to the occurrence of the target
 event to rank them according to their impact on the convergence of the
-statistical analysis.  Exploiting such ranking, \qCORAL iteratively
+statistical analysis.  Exploiting such ranking, \qCORAL{} iteratively
 re-focuses the sampling to gather more information about the
 satisfaction of the most important subproblems first, achieving higher
 estimation accuracy in a shorter time. I explored three distinct

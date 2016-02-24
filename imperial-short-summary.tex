@@ -17,6 +17,7 @@
 \usepackage{verbatim}
 \usepackage{titlesec}
 \usepackage{bibentry}
+\usepackage{titling}
 
 %\addtolength{\topmargin}{-\headheight}
 %\addtolength{\topmargin}{-\headsep}
@@ -31,9 +32,16 @@
 \setlength{\bibsep}{0ex}
 
 
-\titlespacing\section{0pt}{5pt plus 1pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\section{0pt}{3pt plus 1pt minus 2pt}{3pt plus 2pt minus 2pt}
 
 \begin{document}
+
+
+\title{\vspace{-25mm} Mateus Borges - Research Statement}
+\date{}
+\author{}
+\posttitle{\par\end{center}}
+\maketitle
 
 \newcommand{\PSE}{\texttt{PSE}}
 \newcommand{\qCORAL}{\texttt{qCORAL}}
@@ -42,10 +50,12 @@
 %\newcommand{\questionDone}[1]{\colorbox{red}{\parbox[t]{\linegoal}{\st{\textbf{#1}}}}}
 %\newcommand{\outline}[1]{\colorbox{BurntOrange}{\parbox[t]{\linegoal}{\textbf{#1}}}}
 %\newcommand{\outlineDone}[1]{\colorbox{BurntOrange}{\parbox[t]{\linegoal}{\st{\textbf{#1}}}}}
-\raisebox{1cm}
 
-\vspace{-20mm}
-\section{Introduction}
+
+
+%\raisebox{1cm}
+\vspace{-22mm}
+%\section{Introduction}
 
 The pervasiveness of software, the heterogeneity of its users, and the
 growing complexity of interactions with third-party components are
@@ -78,7 +88,7 @@ environment, as well as to encode uncertainty in design assumptions
 about the usage profile of a program. The main advantage of \PSE{} is
 the lack of need of constructing and maintaining higher level models,
 which are often hard to keep consistent with the code, especially for
-fast-changing code bases (e.g., those produced by agile development
+fast-changing code bases (e.g., produced by agile development
 processes); furthermore, the probabilistic information gathered with
 \PSE{} can be used to guide other static and dynamic analysis
 techniques, as well as testing. \PSE{} can be used to investigate
@@ -377,7 +387,7 @@ the developer to understand and fix the problem manually.
   
   \textit{Dr. Corina Pasareanu, CMU SV/NASA Ames Research
     Center}. Dr. Pasareanu is actively working in enabling \PSE{}
-  through the open-souce symbolic execution engine Symbolic
+  through the opensouce symbolic execution engine Symbolic
   PathFinder. I collaborated multiple times with Dr. Pasareanu in the
   past, which resulted in four academic publications. Her access to
   NASA systems that could be used as case studies was essential to the
